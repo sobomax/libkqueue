@@ -72,6 +72,8 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_STANDARD 11)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif()
@@ -141,6 +143,7 @@ find_package(Threads REQUIRED)
 include(CheckIncludeFiles)
 include(CheckSymbolExists)
 include(GNUInstallDirs)
+include(StdAtomic)
 
 check_include_files(sys/eventfd.h HAVE_SYS_EVENTFD_H)
 check_include_files(sys/queue.h HAVE_SYS_QUEUE_H)
