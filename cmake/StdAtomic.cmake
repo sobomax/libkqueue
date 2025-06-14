@@ -2,22 +2,23 @@
 
 set(LIBATOMIC_STATIC_PATH "" CACHE PATH "Directory containing static libatomic.a")
 
-include(CheckCSourceCompiles)
+include(CheckCSourceLinks)
 
 set(
   check_std_atomic_source_code
   [=[
-    #include <stdatomic.h>
-    int main()
-    {
-      _Atomic long long x = 0;
-      ++x;
-      (void)atomic_load(&x);
+  #include <stdatomic.h>
+  _Atomic long long x = 0;
+  void test(_Atomic long long *x, long long v) {
+      atomic_store(x, v);
+  }
+  int main(int argc, char **argv) {
+      test(&x, argc);
       return 0;
-    }
+  }
   ]=])
 
-check_c_source_compiles("${check_std_atomic_source_code}" std_atomic_without_libatomic)
+check_c_source_links("${check_std_atomic_source_code}" std_atomic_without_libatomic)
 
 if(NOT std_atomic_without_libatomic)
   set(CMAKE_REQUIRED_LIBRARIES atomic)
